@@ -34,7 +34,7 @@ RUN pip install requests-aws4auth
 RUN pip install cryptography
 RUN yum clean all
 RUN rm -rf /var/cache/yum
-    
+RUN useradd -ms /bin/bash cron
 RUN touch /var/log/cron.log
 RUN chmod 766 /var/log/cron.log
 USER cron
