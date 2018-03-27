@@ -25,6 +25,7 @@ ENV ELASTALERT_USER changeme
 
 # based on bobrik/docker-curator docker image
 RUN yum -y update
+RUN yum -y install crontabs
 RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 RUN python get-pip.py
 RUN pip install elasticsearch-curator==5.5.1
