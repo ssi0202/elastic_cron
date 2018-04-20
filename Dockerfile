@@ -1,4 +1,5 @@
 FROM ubuntu:latest
+MAINTAINER justin@hasecuritysolutions.com
 
 # Alias, DNS or IP of Elasticsearch host to be queried by Elastalert. Set in default Elasticsearch configuration file.
 ENV ELASTICSEARCH_HOST elasticsearch
@@ -16,7 +17,9 @@ ENV ELASTALERT_USER elastic
 ENV ELASTALERT_USER changeme
 
 # based on bobrik/docker-curator docker image
-RUN apt install -y python-pip
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install python-pip
 RUN pip install elasticsearch-curator
 RUN pip install requests-aws4auth
 ADD crontab /etc/cron.d/elastic-cron
