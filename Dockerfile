@@ -1,13 +1,5 @@
-FROM centos:latest
+FROM ubuntu:latest
 
-# Set this environment variable to True to set timezone on container start.
-ENV SET_CONTAINER_TIMEZONE False
-# Default container timezone as found under the directory /usr/share/zoneinfo/.
-ENV CONTAINER_TIMEZONE America/Chicago
-# Directory holding configuration for Curator
-ENV CONFIG_DIR /etc/curator
-# Curator configuration file path in configuration directory.
-ENV CURATOR_CONFIG ${CONFIG_DIR}/config.yml
 # Alias, DNS or IP of Elasticsearch host to be queried by Elastalert. Set in default Elasticsearch configuration file.
 ENV ELASTICSEARCH_HOST elasticsearch
 # Port on above Elasticsearch host. Set in default Elasticsearch configuration file.
@@ -24,19 +16,16 @@ ENV ELASTALERT_USER elastic
 ENV ELASTALERT_USER changeme
 
 # based on bobrik/docker-curator docker image
-RUN yum -y update
-RUN yum -y install crontabs
-RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-RUN python get-pip.py
-RUN pip install elasticsearch-curator==5.5.1
-RUN pip install boto3==1.4.8
+RUN apt install -y python-pip
+RUN pip install elasticsearch-curator
 RUN pip install requests-aws4auth
-RUN pip install cryptography
-RUN yum clean all
-RUN rm -rf /var/cache/yum
-RUN useradd -ms /bin/bash cron
+ADD crontab /etc/cron.d/elastic-cron
 RUN touch /var/log/cron.log
-RUN chmod 766 /var/log/cron.log
+RUN useradd -ms /bin/bash cron
+RUN chown cron:cron /var/log/cron.log
+RUN chmod 0644 /var/log/cron.log
+RUN apt autoremove -y
+RUN apt clean -y
 USER cron
 STOPSIGNAL SIGTERM
 
