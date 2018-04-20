@@ -19,10 +19,9 @@ ENV ELASTALERT_USER changeme
 # based on bobrik/docker-curator docker image
 RUN apt-get update
 RUN apt-get dist-upgrade -y
-RUN apt-get install python-pip
+RUN apt-get install -y python-pip
 RUN pip install elasticsearch-curator
 RUN pip install requests-aws4auth
-ADD crontab /etc/cron.d/elastic-cron
 RUN touch /var/log/cron.log
 RUN useradd -ms /bin/bash cron
 RUN chown cron:cron /var/log/cron.log
