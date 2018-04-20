@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-MAINTAINER justin@hasecuritysolutions.com
+MAINTAINER Justin Henderson justin@hasecuritysolutions.com
 
 # Alias, DNS or IP of Elasticsearch host to be queried by Elastalert. Set in default Elasticsearch configuration file.
 ENV ELASTICSEARCH_HOST elasticsearch
