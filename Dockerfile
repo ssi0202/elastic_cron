@@ -23,12 +23,10 @@ RUN apt-get install -y python-pip
 RUN pip install elasticsearch-curator
 RUN pip install requests-aws4auth
 RUN touch /var/log/cron.log
-RUN useradd -ms /bin/bash cron
 RUN chown cron:cron /var/log/cron.log
 RUN chmod 0644 /var/log/cron.log
 RUN apt autoremove -y
 RUN apt clean -y
-USER cron
 STOPSIGNAL SIGTERM
 
 CMD cron && tail -f /var/log/cron.log
