@@ -24,6 +24,8 @@ RUN touch /var/log/cron.log \
     && curl -o /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/16.04/prod.list \
     && apt-get update \
     && apt-get install -y powershell
+COPY ./entrypoint.sh /opt/
+RUN chmod +x /opt/entrypoint.sh
 
 # Run the command on container startup
-CMD chown root:root /etc/cron.d/* && chmod 0755 /etc/cron.d/* && chown -R elastic-cron:elastic-cron /home/elastic-cron/logs && /usr/sbin/cron -f
+CMD /bin/bash /opt/entrypoint.sh
