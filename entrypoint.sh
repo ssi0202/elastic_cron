@@ -29,7 +29,15 @@ if [ -d "$SAMPLE_INDEX_FOLDER" ]; then
     EXISTS=$(curl -s -I "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT/$NAME" -H 'Content-Type: application/json')
     if [[ $EXISTS == *"404"* ]]; then
       echo "Index $NAME does not exist. Creating..."
-      nc logstash 60000 -q1 < $logs
+      TEST=$(nc -z -v logstash 60000 2>&1 | grep 60000)
+      if [[ $TEST == *"60000"*]]; then
+        nc $LOGSTASH_HOST $LOGSTASH_JSON_PORT -q1 < $logs
+      else
+        sleep 30
+        if [[ $TEST == *"60000"*]]; then
+          nc $LOGSTASH_HOST $LOGSTASH_JSON_PORT -q1 < $logs
+        fi
+      fi
     fi
     if [[ $EXISTS == *"200"* ]]; then
       echo "Index $NAME already exists"
