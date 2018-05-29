@@ -23,14 +23,13 @@ fi
 
 if [ -d "$SAMPLE_INDEX_FOLDER" ]; then
   cd $SAMPLE_INDEX_FOLDER
-  for index in *.json
+  for logs in *.json
   do
-    NAME=$(echo $index | cut -d"." -f1)
+    NAME=$(echo $logs | cut -d"." -f1)
     EXISTS=$(curl -s -I "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT/$NAME" -H 'Content-Type: application/json')
     if [[ $EXISTS == *"404"* ]]; then
       echo "Index $NAME does not exist. Creating..."
-      curl -s -X PUT "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT/$NAME" -H 'Content-Type: application/json' -d' { "settings" : { "number_of_shards" : 1, "number_of_replicas" : 0 } } '
-      curl -s -X POST "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT/$NAME/_doc/_bulk" -H 'Content-Type: application/x-ndjson' --data-binary @$index
+      nc logstash 60000 -q1 < $logs
     fi
     if [[ $EXISTS == *"200"* ]]; then
       echo "Index $NAME already exists"
