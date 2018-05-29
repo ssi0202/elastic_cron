@@ -10,6 +10,10 @@ ENV ELASTICSEARCH_INDEX_TEMPLATES /opt/elastic_stack/elasticsearch/index_templat
 # Folder with OPTIONAL sample data to load. File format is indexname.json
 # You may use index-DATEFORMAT if you like, but these may end up getting purged
 ENV SAMPLE_INDEX_FOLDER /opt/elastic_stack/elasticsearch/sample_indices/
+# Alias, DNS or IP of Logstash host. Used for ingesting sample indices
+ENV LOGSTASH_HOST logstash
+# Port Elasticsearch runs on
+ENV LOGSTASH_JSON_PORT 60000
 
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log \
