@@ -1,6 +1,9 @@
 FROM ubuntu:16.04
 MAINTAINER justin@hasecuritysolutions.com
 
+# Folder where Elasticsearch index templates are stored
+ENV ELASTICSEARCH_INDEX_TEMPLATES /opt/elasticsearch/index_templates/
+
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log \
     && apt-get update \
