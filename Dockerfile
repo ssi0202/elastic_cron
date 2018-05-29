@@ -4,7 +4,7 @@ MAINTAINER justin@hasecuritysolutions.com
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log \
     && apt-get update \
-    && apt-get -y install cron python-pip curl wget \
+    && apt-get -y install cron python-pip curl wget apt-transport-https \
     && pip install elasticsearch-curator \
     && pip install requests-aws4auth \
     && useradd -ms /bin/bash elastic-cron \
