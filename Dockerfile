@@ -6,10 +6,10 @@ ENV ELASTICSEARCH_HOST elasticsearch
 # Port Elasticsearch runs on
 ENV ELASTICSEARCH_PORT 9200
 # Folder where Elasticsearch index templates are stored
-ENV ELASTICSEARCH_INDEX_TEMPLATES /opt/elasticsearch/index_templates/
+ENV ELASTICSEARCH_INDEX_TEMPLATES /opt/elastic_stack/elasticsearch/index_templates/
 # Folder with OPTIONAL sample data to load. File format is indexname.json
 # You may use index-DATEFORMAT if you like, but these may end up getting purged
-ENV SAMPLE_INDEX_FOLDER /opt/elasticsearch/sample_indices/
+ENV SAMPLE_INDEX_FOLDER /opt/elastic_stack/elasticsearch/sample_indices/
 
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log \
