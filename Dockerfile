@@ -1,6 +1,10 @@
 FROM ubuntu:16.04
 MAINTAINER justin@hasecuritysolutions.com
 
+# Alias, DNS or IP of Elasticsearch host to be queried by Elastalert. Set in default Elasticsearch configuration file.
+ENV ELASTICSEARCH_HOST elasticsearch
+# Port Elasticsearch runs on
+ENV ELASTICSEARCH_PORT 9200
 # Folder where Elasticsearch index templates are stored
 ENV ELASTICSEARCH_INDEX_TEMPLATES /opt/elasticsearch/index_templates/
 
