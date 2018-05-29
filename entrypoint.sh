@@ -27,7 +27,6 @@ if [ -d "$SAMPLE_INDEX_FOLDER" ]; then
   do
     NAME=$(echo $index | cut -d"." -f1)
     EXISTS=$(curl -s -I "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT/$NAME" -H 'Content-Type: application/json')
-    echo $EXISTS
     if [[ $EXISTS == *"404"* ]]; then
       echo "Index $NAME does not exist. Creating..."
       curl -s -X PUT "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT/$NAME" -H 'Content-Type: application/json' -d' { "settings" : { "number_of_shards" : 1, "number_of_replicas" : 0 } } '
