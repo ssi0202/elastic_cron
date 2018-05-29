@@ -14,7 +14,7 @@ ENV SAMPLE_INDEX_FOLDER /opt/elastic_stack/elasticsearch/sample_indices/
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log \
     && apt-get update \
-    && apt-get -y install cron python-pip curl wget apt-transport-https \
+    && apt-get -y install cron python-pip curl wget apt-transport-https netcat \
     && pip install elasticsearch-curator \
     && pip install requests-aws4auth \
     && useradd -ms /bin/bash elastic-cron \
