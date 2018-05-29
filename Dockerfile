@@ -1,26 +1,19 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 MAINTAINER justin@hasecuritysolutions.com
 
-
 # Create the log file to be able to run tail
-RUN touch /var/log/cron.log
-
-#Install Cron
-RUN apt-get update
-RUN apt-get -y install cron python-pip
-RUN pip install elasticsearch-curator
-RUN pip install requests-aws4auth
-
-# Create low privilege user
-RUN useradd -ms /bin/bash elastic-cron
-# Add crontab file in the cron directory
-#COPY crontab /etc/cron.d/elastic-cron
-RUN touch /etc/cron.d/elastic-cron
-
-# Give execution rights on the cron job
-RUN chmod 0755 /etc/cron.d/elastic-cron
-
-RUN mkdir /home/elastic-cron/logs
+RUN touch /var/log/cron.log \
+    && apt-get update \
+    && apt-get -y install cron python-pip curl wget \
+    && pip install elasticsearch-curator \
+    && pip install requests-aws4auth \
+    && useradd -ms /bin/bash elastic-cron \
+    && touch /etc/cron.d/elastic-cron \
+    && mkdir /home/elastic-cron/logs \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl -o /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/16.04/prod.list \
+    && apt-get update \
+    && apt-get install -y powershell
 
 # Run the command on container startup
-CMD chown root:root /etc/cron.d/elastic-cron && chmod 0755 /etc/cron.d/elastic-cron && chown -R elastic-cron:elastic-cron /home/elastic-cron/logs && /usr/sbin/cron -f
+CMD chown root:root /etc/cron.d/* && chmod 0755 /etc/cron.d/* && chown -R elastic-cron:elastic-cron /home/elastic-cron/logs && /usr/sbin/cron -f
