@@ -32,4 +32,4 @@ COPY ./entrypoint.sh /opt/
 RUN chmod +x /opt/entrypoint.sh
 
 # Run the command on container startup
-CMD /bin/bash /opt/entrypoint.sh
+CMD chown root:root /etc/cron.d/* && chmod 0755 /etc/cron.d/* && chown -R elastic-cron:elastic-cron /home/elastic-cron/logs && /usr/sbin/cron -f
