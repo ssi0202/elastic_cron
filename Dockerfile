@@ -30,7 +30,6 @@ RUN touch /var/log/cron.log \
     && apt-get install -y powershell
 COPY ./entrypoint.sh /opt/
 RUN chmod +x /opt/entrypoint.sh
-USER elastic-cron
 
 # Run the command on container startup
 CMD /bin/bash /opt/entrypoint.sh
